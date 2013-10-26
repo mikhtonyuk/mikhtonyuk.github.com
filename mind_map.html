@@ -42,26 +42,28 @@ function giveFocus()
 	
 	<script type="text/javascript">
 		// <![CDATA[
-		// for allowing using http://.....?mindmap.mm mode
-		function getMap(map){
-		  var result=map;
-		  var loc=document.location+'';
-		  if(loc.indexOf(".mm")>0 && loc.indexOf("?")>0){
-			result=loc.substring(loc.indexOf("?")+1);
-		  }
-		  return result;
+		function GetUrlValue(varSearch){
+			var SearchString = window.location.search.substring(1);
+			var VariableArray = SearchString.split('&');
+			for(var i = 0; i < VariableArray.length; i++){
+				var KeyValuePair = VariableArray[i].split('=');
+				if(KeyValuePair[0] == varSearch){
+					return KeyValuePair[1];
+				}
+			}
 		}
 		var fo = new FlashObject("scripts/visorFreemind.swf", "visorFreeMind", "100%", "100%", 6, "#9999ff");
 		fo.addParam("quality", "high");
-		fo.addParam("bgcolor", "#a0a0f0");
+		fo.addParam("bgcolor", "#ffffff");
 		fo.addVariable("openUrl", "_blank");
-		fo.addVariable("startCollapsedToLevel","3");
+		fo.addVariable("startCollapsedToLevel","10");
 		fo.addVariable("maxNodeWidth","200");
 		//
 		fo.addVariable("mainNodeShape","elipse");
 		fo.addVariable("justMap","false");
 
-		fo.addVariable("initLoadFile",getMap("files/mind-maps/programmer-skillset/1-programming-fundamentals.mm"));
+		var mapFile = "files/mind-maps/" + GetUrlValue("map");
+		fo.addVariable("initLoadFile", mapFile);
 		
 		fo.addVariable("defaultToolTipWordWrap",200);
 		fo.addVariable("offsetX","left");
